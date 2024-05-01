@@ -2,7 +2,6 @@ import { ThemeProvider } from "@mui/material";
 import { theme } from "./utils/theme";
 import { Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
-import HomeCountry from "./pages/HomeCountry";
 
 function App() {
   return (

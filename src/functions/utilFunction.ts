@@ -262,22 +262,6 @@ export function createArrayWithTimes(data: WeatherData[]): WeatherData[] {
 // U
 
 // Function to group objects by day
-function groupByDay(data: WeatherData[]): Record<string, WeatherData[]> {
-  const grouped: Record<string, WeatherData[]> = {};
-
-  data.forEach((item) => {
-    const date = new Date(item.dt * 1000).toLocaleDateString("en-US", {
-      month: "short",
-      day: "numeric",
-    });
-    if (!grouped[date]) {
-      grouped[date] = [];
-    }
-    grouped[date].push(item);
-  });
-
-  return grouped;
-}
 
 // Function to create array with one object from each day
 export function createArrayWithOneObjectPerDay(
@@ -288,7 +272,6 @@ export function createArrayWithOneObjectPerDay(
       return item;
     }
   });
-  const result: WeatherData[] = [];
 
   // Iterate over each day and pick one object
   const newData = dataRequired.map((item) => {

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import { useNavigate } from "react-router-dom";
@@ -11,28 +11,24 @@ import { FaCaretDown } from "react-icons/fa6";
 import ContinentDropdown from "./ContinentDropdown";
 
 const Header = ({ country }: { country: string }) => {
-  const { t, i18n } = useTranslation();
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const open = Boolean(anchorEl);
+  const { t } = useTranslation();
+  // const [, setAnchorEl] = React.useState(null);
+
   const [openMenuDropdown, setOpenMenuDropdown] = useState(false);
 
-  const handleMenu = (event: any) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
+  // const handleClose = () => {
+  //   setAnchorEl(null);
+  // };
 
   const onChangeSearch = (e: any) => {
     setSearch(e.target.value);
   };
 
-  const selectLn = (lang: any) => {
-    localStorage.setItem("language", lang);
-    i18n.changeLanguage(lang);
-    handleClose();
-  };
+  // const selectLn = (lang: any) => {
+  //   localStorage.setItem("language", lang);
+  //   i18n.changeLanguage(lang);
+  //   handleClose();
+  // };
   const [search, setSearch] = useState("");
   const navigate = useNavigate();
   const toolBarStyle = {

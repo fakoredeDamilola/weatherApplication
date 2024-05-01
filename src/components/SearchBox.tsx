@@ -1,4 +1,4 @@
-import React, { useState, useRef, forwardRef, useEffect } from "react";
+import React, { useState, useRef, forwardRef } from "react";
 import {
   FormControl,
   InputAdornment,
@@ -9,9 +9,9 @@ import {
 } from "@mui/material";
 import { BsSearch } from "react-icons/bs";
 import { Link } from "react-router-dom";
-import { getPlacesAutocomplete } from "../functions/utilFunction";
-import { useQuery } from "@tanstack/react-query";
-import useDebounce from "../hooks/useDebounce";
+// import { getPlacesAutocomplete } from "../functions/utilFunction";
+// import { useQuery } from "@tanstack/react-query";
+// import useDebounce from "../hooks/useDebounce";
 import useOnClickOutside from "../hooks/useOnclickOutside";
 
 const SearchResults = forwardRef<
@@ -42,34 +42,34 @@ const SearchResults = forwardRef<
 
 const SearchBox: React.FC = () => {
   const [search, setSearch] = useState("");
-  const debouncedSearchTerm = useDebounce(search, 300);
+  // const debouncedSearchTerm = useDebounce(search, 300);
 
   const [showResult, setShowResult] = useState(false);
   const handleResultsHide = () => setShowResult(false);
   const ref = useRef<HTMLDivElement>(null);
   useOnClickOutside(ref, handleResultsHide);
 
-  const placesQuery = useQuery({
-    queryKey: ["places", debouncedSearchTerm],
-    queryFn: async () => {
-      const response = await getPlacesAutocomplete(debouncedSearchTerm);
-      const placesQueryData = response?.data;
+  // const placesQuery = useQuery({
+  //   queryKey: ["places", debouncedSearchTerm],
+  //   queryFn: async () => {
+  //     const response = await getPlacesAutocomplete(debouncedSearchTerm);
+  //     const placesQueryData = response?.data;
 
-      if (placesQueryData.length === 0) {
-        return;
-      }
+  //     if (placesQueryData.length === 0) {
+  //       return;
+  //     }
 
-      const filteredData = placesQueryData.map((placesObject: any) => ({
-        name: placesObject?.display_name,
-        latitude: placesObject?.lat,
-        longitude: placesObject?.lon,
-      }));
+  //     const filteredData = placesQueryData.map((placesObject: any) => ({
+  //       name: placesObject?.display_name,
+  //       latitude: placesObject?.lat,
+  //       longitude: placesObject?.lon,
+  //     }));
 
-      return filteredData;
-    },
-    refetchOnWindowFocus: false,
-    enabled: !!debouncedSearchTerm,
-  });
+  //     return filteredData;
+  //   },
+  //   refetchOnWindowFocus: false,
+  //   enabled: !!debouncedSearchTerm,
+  // });
 
   const handleResultCLick = () => setShowResult(false);
 
@@ -100,7 +100,8 @@ const SearchBox: React.FC = () => {
       {/* Search Results */}
       {showResult && (
         <SearchResults
-          data={placesQuery?.data || []}
+          // data={placesQuery?.data || []}
+          data={[]}
           handleResultCLick={handleResultCLick}
           ref={ref}
         />

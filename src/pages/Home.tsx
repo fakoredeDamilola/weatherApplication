@@ -17,7 +17,7 @@ import {
   getWeatherDetails,
 } from "../functions/utilFunction";
 import { languages } from "../utils/constants";
-import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { WeatherData } from "../interface/IWeatherData";
 
 const Home = () => {
@@ -29,16 +29,16 @@ const Home = () => {
     monthly: "Monthly",
   };
   const [selectedTab, setSelectedTab] = useState(tabs.today);
-  const [userLocation, setUserLocation] = useState({
-    latitude: 0,
-    longitude: 0,
-  });
+  // const [userLocation, setUserLocation] = useState({
+  //   latitude: 0,
+  //   longitude: 0,
+  // });
   const [weatherDetails, setWeatherDetails] = useState<null | any>(null);
   const [categorizedWeather, setCategorizedWeather] = useState<
     WeatherData[] | any
   >(null);
-  const [fiveDaysWeather, setFiveDaysWeather] = useState<null | any>(null);
-  const [searchParams, setSearchParams] = useSearchParams();
+  // const [fiveDaysWeather, setFiveDaysWeather] = useState<null | any>(null);
+  const [searchParams] = useSearchParams();
 
   const [fiveObjectsArray, setFiveObjectsArray] = useState<WeatherData[]>([]);
   const [fiveObjectsTimeArray, setFiveObjectsTimeArray] = useState<
@@ -47,7 +47,6 @@ const Home = () => {
   const [fiveDaysTotalInfo, setFiveDatsTotalInfo] = useState<null | any>(null);
   const [timeZone, setTimeZone] = useState("");
   const navigate = useNavigate();
-  const location = useLocation();
   // const { t, i18n } = useTranslation();
 
   const openSelectedTab = (tab: string) => {
@@ -64,7 +63,7 @@ const Home = () => {
       getDataFromLocalStorage();
       getUserLocation()
         .then((location) => {
-          setUserLocation(location);
+          // setUserLocation(location);
           getWeatherInfo(location.latitude, location.longitude);
         })
         .catch((error) => {
@@ -100,7 +99,7 @@ const Home = () => {
 
     const userLanguage = navigator.language.split("-")[0];
     const queryParams = new URLSearchParams(window.location.search);
-    const language = lngs?.toLowerCase();
+
     queryParams.set("lng", lngs ?? "en");
     navigate({ search: queryParams.toString() });
     // i18n.changeLanguage(language);
@@ -112,7 +111,7 @@ const Home = () => {
       longitude
     );
     const fiveDaysData = fiveDaysWeatherInfo.list;
-    setFiveDaysWeather(fiveDaysData);
+    // setFiveDaysWeather(fiveDaysData);
     if (fiveDaysData) {
       const categorizedWeather = categorizeDataByTime(fiveDaysData);
       const fiveObjectsArray = createArrayWithTimes(fiveDaysData);

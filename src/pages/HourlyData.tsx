@@ -1,4 +1,4 @@
-import { Box, Stack, Typography } from "@mui/material";
+import { Box, Stack } from "@mui/material";
 import {
   convertUnixTimestampToReadableTime,
   getWeatherIconURL,
@@ -41,6 +41,7 @@ const HourlyData = ({
           </Box>
           <Box sx={{ borderTop: "1px solid black" }}>
             {fiveObjectsTimeArray?.map((data: any, index: number) => {
+              console.log({ data });
               const dataInfo = fiveObjectsTimeArray[index];
               return (
                 <Box key={index}>
@@ -53,9 +54,8 @@ const HourlyData = ({
                   >
                     {fiveObjectsTimeArray[index][1]}
                   </Box>
-                  {dataInfo[0]?.map((dataValue: any, i: number) => {
+                  {dataInfo[0]?.map((dataValue: any) => {
                     const singleItem = dataValue;
-                    console.log({ singleItem });
                     return (
                       <Stack
                         key={index}
