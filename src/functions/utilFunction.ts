@@ -131,7 +131,41 @@ export function convertUnixTimestampToReadableTime(
   };
   return date.toLocaleTimeString("en-US", options);
 }
+export function createFiveDaysTotalInfo(data: WeatherData[]) {
+  const options: Intl.DateTimeFormatOptions = {
+    weekday: "long",
+    month: "long",
+    day: "numeric",
+  };
+  // slice the data  into a key value pair of 8 elemennts where the key is the day
+  const newDataArray = [
+    [
+      data.slice(0, 8),
+      new Date(data[0].dt_txt).toLocaleDateString("en-US", options),
+    ],
 
+    [
+      data.slice(8, 16),
+      new Date(data[8].dt_txt).toLocaleDateString("en-US", options),
+    ],
+
+    [
+      data.slice(16, 24),
+      new Date(data[16].dt_txt).toLocaleDateString("en-US", options),
+    ],
+
+    [
+      data.slice(24, 32),
+      new Date(data[24].dt_txt).toLocaleDateString("en-US", options),
+    ],
+    [
+      data.slice(32, 40),
+      new Date(data[32].dt_txt).toLocaleDateString("en-US", options),
+    ],
+  ];
+
+  return newDataArray;
+}
 export function categorizeDataByTime(
   data: WeatherData[]
 ): Record<string, WeatherData | null> {

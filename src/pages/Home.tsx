@@ -10,6 +10,7 @@ import {
   categorizeDataByTime,
   createArrayWithOneObjectPerDay,
   createArrayWithTimes,
+  createFiveDaysTotalInfo,
   generateTimeZones,
   getFiveDayWeatherForecast,
   getUserLocation,
@@ -43,6 +44,7 @@ const Home = () => {
   const [fiveObjectsTimeArray, setFiveObjectsTimeArray] = useState<
     WeatherData[]
   >([]);
+  const [fiveDaysTotalInfo, setFiveDatsTotalInfo] = useState<null | any>(null);
   const [timeZone, setTimeZone] = useState("");
   const navigate = useNavigate();
   const location = useLocation();
@@ -109,16 +111,17 @@ const Home = () => {
       latitude,
       longitude
     );
-    console.log({ fiveDaysWeatherInfo });
     const fiveDaysData = fiveDaysWeatherInfo.list;
     setFiveDaysWeather(fiveDaysData);
     if (fiveDaysData) {
       const categorizedWeather = categorizeDataByTime(fiveDaysData);
       const fiveObjectsArray = createArrayWithTimes(fiveDaysData);
+      const fiveDaysTotalInfo = createFiveDaysTotalInfo(fiveDaysData);
       const fiveObjectsTimeArray = createArrayWithOneObjectPerDay(fiveDaysData);
       setFiveObjectsTimeArray(fiveObjectsTimeArray);
       setFiveObjectsArray(fiveObjectsArray);
-      console.log({ fiveObjectsTimeArray });
+
+      setFiveDatsTotalInfo(fiveDaysTotalInfo);
       setCategorizedWeather(categorizedWeather);
     }
     if (fiveDaysWeatherInfo) {
@@ -168,8 +171,8 @@ const Home = () => {
           <Box my="30px">
             <HourlyData
               weatherDetails={weatherDetails}
-              fiveObjectsTimeArray={fiveObjectsTimeArray}
-            />{" "}
+              fiveObjectsTimeArray={fiveDaysTotalInfo}
+            />
           </Box>
         )}
         {selectedTab === "Weekly" && <WeeklyData />}
