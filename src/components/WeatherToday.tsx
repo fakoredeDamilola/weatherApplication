@@ -1,4 +1,3 @@
-import React from "react";
 import { WeatherData } from "../interface/IWeatherData";
 import { useTranslation } from "react-i18next";
 import { MdDewPoint } from "react-icons/md";
@@ -8,7 +7,7 @@ import { IoCloudSharp } from "react-icons/io5";
 import { MdVisibility } from "react-icons/md";
 import { FaWind } from "react-icons/fa6";
 import { WiHumidity } from "react-icons/wi";
-import { Box, Stack } from "@mui/material";
+import { Stack } from "@mui/material";
 
 const WeatherToday = ({ weatherData }: { weatherData: WeatherData }) => {
   const {
