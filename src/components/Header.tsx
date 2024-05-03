@@ -1,35 +1,116 @@
-import { useState } from "react";
+import { forwardRef, useEffect, useRef, useState } from "react";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { Box, Stack } from "@mui/material";
+import { Box, List, ListItem, ListItemText, Stack } from "@mui/material";
 import { Cancel, Search } from "@mui/icons-material";
 import { FaCaretUp, FaGlobeAmericas } from "react-icons/fa";
 import { CustomInput } from "./styles";
 import { FaCaretDown } from "react-icons/fa6";
 import ContinentDropdown from "./ContinentDropdown";
+import useDebounce from "../hooks/useDebounce";
+import axios from "axios";
 
 const Header = ({ country }: { country: string }) => {
   const { t } = useTranslation();
   // const [, setAnchorEl] = React.useState(null);
 
   const [openMenuDropdown, setOpenMenuDropdown] = useState(false);
+  const [showResult, setShowResult] = useState(false);
+  const [SearchResult, setSearchResult] = useState([]);
+  const ref = useRef<HTMLDivElement>(null);
+  const [search, setSearch] = useState("");
+  const debouncedSearchTerm = useDebounce(search, 300);
 
-  // const handleClose = () => {
-  //   setAnchorEl(null);
-  // };
+  useEffect(() => {
+    if (search.length > 2) {
+      getUserSuggestionLocation(debouncedSearchTerm);
+    } else {
+      setShowResult(false);
+    }
+  }, [debouncedSearchTerm]);
 
-  const onChangeSearch = (e: any) => {
-    setSearch(e.target.value);
+  const getUserSuggestionLocation = async (search: string) => {
+    const format = "json";
+    const addressDetails = 1;
+    const limit = 10;
+    try {
+      const response = await axios.get(
+        `https://nominatim.openstreetmap.org/search?format=${format}&q=${search}&addressdetails=${addressDetails}&limit=${limit}`
+      );
+      console.log({ response });
+      if (response.data) {
+        setSearchResult(response.data);
+        setShowResult(true);
+      } else {
+        setShowResult(false);
+      }
+
+      return response;
+    } catch (error) {
+      console.log("places auto complete error", error);
+      return error;
+    }
   };
 
-  // const selectLn = (lang: any) => {
-  //   localStorage.setItem("language", lang);
-  //   i18n.changeLanguage(lang);
-  //   handleClose();
-  // };
-  const [search, setSearch] = useState("");
+  const handleResultCLick = (lat: string, long: string) => {
+    console.log({ lat, long });
+    navigate(`/country?lat=${lat}&long=${long}`);
+    setShowResult(false);
+    setSearch("");
+  };
+
+  const SearchResults = forwardRef<HTMLDivElement, { data: any[] }>(
+    function SearchResults({ data }, ref) {
+      return (
+        <Box
+          sx={{
+            background: "white",
+            borderRadius: "10px",
+            boxShadow: "0px 1px 2px black",
+            padding: "10px",
+            top: "40px",
+            width: "90%",
+            left: "4%",
+            height: "auto",
+            maxHeight: "300px",
+            overflowY: "scroll",
+          }}
+          position="absolute"
+          width="100%"
+          className="places-search-result"
+          aria-label="search results"
+          ref={ref}
+        >
+          {data && (
+            <List className="py-2">
+              {data.map((data, index) => (
+                <ListItem
+                  key={index}
+                  onClick={() => handleResultCLick(data.lat, data.lon)}
+                  sx={{
+                    ":hover": { background: "lightgray" },
+                    cursor: "pointer",
+                  }}
+                >
+                  {/* <Link
+                  style={{ color: "black", textDecoration: "none" }}
+                  to={`${data.name?.split(", ").slice(0, 2)?.join("-")}/${
+                    data.latitude
+                  } ${data.longitude}`}
+                > */}
+                  <ListItemText primary={data.display_name} />
+                  {/* </Link> */}
+                </ListItem>
+              ))}
+            </List>
+          )}
+        </Box>
+      );
+    }
+  );
+
   const navigate = useNavigate();
   const toolBarStyle = {
     display: "flex",
@@ -57,31 +138,34 @@ const Header = ({ country }: { country: string }) => {
             <div
               style={{ display: "block", width: "100%", position: "relative" }}
             >
-              <Search
-                sx={{
-                  position: "absolute",
-                  color: "rgba(0, 0, 0, 0.25)",
-                  top: "7px",
-                  left: "10px",
-                }}
-              />
-              <CustomInput
-                type="text"
-                placeholder="Search"
-                value={search}
-                onChange={(e) => onChangeSearch(e)}
-              />
-              <Cancel
-                sx={{
-                  position: "absolute",
-                  color: "rgba(0, 0, 0, 0.25)",
-                  top: "7px",
-                  right: "10px",
-                  cursor: "pointer",
-                  display: search ? "block" : "none",
-                }}
-                onClick={() => setSearch("")}
-              />
+              <div>
+                <Search
+                  sx={{
+                    position: "absolute",
+                    color: "rgba(0, 0, 0, 0.25)",
+                    top: "7px",
+                    left: "10px",
+                  }}
+                />
+                <CustomInput
+                  type="text"
+                  placeholder="Search"
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                />
+                <Cancel
+                  sx={{
+                    position: "absolute",
+                    color: "rgba(0, 0, 0, 0.25)",
+                    top: "7px",
+                    right: "10px",
+                    cursor: "pointer",
+                    display: search ? "block" : "none",
+                  }}
+                  onClick={() => setSearch("")}
+                />
+              </div>{" "}
+              {showResult && <SearchResults data={SearchResult} ref={ref} />}
             </div>
           </Stack>
           <Box

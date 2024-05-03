@@ -64,7 +64,7 @@ const ContinentDropdown = ({
     const continentCountry =
       countries[
         continentsMap[
-          continent as keyof typeof continentsMap
+          continent.toLowerCase() as keyof typeof continentsMap
         ] as keyof typeof countries
       ];
     console.log({ continentCountry });

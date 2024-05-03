@@ -19,6 +19,7 @@ import {
 import { languages } from "../utils/constants";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { WeatherData } from "../interface/IWeatherData";
+import { useTranslation } from "react-i18next";
 
 const Home = () => {
   const tabs = {
@@ -47,7 +48,7 @@ const Home = () => {
   const [fiveDaysTotalInfo, setFiveDatsTotalInfo] = useState<null | any>(null);
   const [timeZone, setTimeZone] = useState("");
   const navigate = useNavigate();
-  // const { t, i18n } = useTranslation();
+  const { i18n } = useTranslation();
 
   const openSelectedTab = (tab: string) => {
     setSelectedTab(tabs[tab as keyof typeof tabs]);
@@ -101,8 +102,10 @@ const Home = () => {
     const queryParams = new URLSearchParams(window.location.search);
 
     queryParams.set("lng", lngs ?? "en");
+    const language = lngs?.toLowerCase() ?? "en";
     navigate({ search: queryParams.toString() });
-    // i18n.changeLanguage(language);
+    console.log({ i18n });
+    i18n.changeLanguage(language);
     console.log({ weatherInfo });
     setWeatherDetails(weatherInfo);
 

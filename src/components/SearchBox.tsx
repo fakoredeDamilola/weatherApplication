@@ -1,4 +1,4 @@
-import React, { useState, useRef, forwardRef } from "react";
+import React, { useState, useRef, forwardRef, useEffect } from "react";
 import {
   FormControl,
   InputAdornment,
@@ -13,6 +13,8 @@ import { Link } from "react-router-dom";
 // import { useQuery } from "@tanstack/react-query";
 // import useDebounce from "../hooks/useDebounce";
 import useOnClickOutside from "../hooks/useOnclickOutside";
+import useDebounce from "../hooks/useDebounce";
+import axios from "axios";
 
 const SearchResults = forwardRef<
   HTMLDivElement,
@@ -42,34 +44,34 @@ const SearchResults = forwardRef<
 
 const SearchBox: React.FC = () => {
   const [search, setSearch] = useState("");
-  // const debouncedSearchTerm = useDebounce(search, 300);
+  const debouncedSearchTerm = useDebounce(search, 300);
 
   const [showResult, setShowResult] = useState(false);
   const handleResultsHide = () => setShowResult(false);
   const ref = useRef<HTMLDivElement>(null);
   useOnClickOutside(ref, handleResultsHide);
 
-  // const placesQuery = useQuery({
-  //   queryKey: ["places", debouncedSearchTerm],
-  //   queryFn: async () => {
-  //     const response = await getPlacesAutocomplete(debouncedSearchTerm);
-  //     const placesQueryData = response?.data;
+  useEffect(() => {
+    getUserSuggestionLocation(debouncedSearchTerm);
+    alert({ search });
+  }, [debouncedSearchTerm]);
 
-  //     if (placesQueryData.length === 0) {
-  //       return;
-  //     }
-
-  //     const filteredData = placesQueryData.map((placesObject: any) => ({
-  //       name: placesObject?.display_name,
-  //       latitude: placesObject?.lat,
-  //       longitude: placesObject?.lon,
-  //     }));
-
-  //     return filteredData;
-  //   },
-  //   refetchOnWindowFocus: false,
-  //   enabled: !!debouncedSearchTerm,
-  // });
+  const getUserSuggestionLocation = async (search: string) => {
+    console.log({ search });
+    const format = "json";
+    const addressDetails = 1;
+    const limit = 10;
+    try {
+      const response = await axios.get(
+        `https://nominatim.openstreetmap.org/search?format=${format}&q=${search}&addressdetails=${addressDetails}&limit=${limit}`
+      );
+      console.log({ response });
+      return response;
+    } catch (error) {
+      console.log("places auto complete error", error);
+      return error;
+    }
+  };
 
   const handleResultCLick = () => setShowResult(false);
 
