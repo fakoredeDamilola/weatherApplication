@@ -32,9 +32,9 @@ const ContinentDropdown = ({
     antarctica: "Antarctica",
     asia: "Asia",
     europe: "Europe",
-    northAmerica: "North America",
+    "north america": "North America",
     oceania: "Oceania",
-    southAmerica: "South America",
+    "south america": "South America",
   };
 
   const openCountryData = async (country: string) => {
@@ -67,7 +67,12 @@ const ContinentDropdown = ({
           continent.toLowerCase() as keyof typeof continentsMap
         ] as keyof typeof countries
       ];
-    console.log({ continentCountry });
+    console.log(
+      { continentCountry, continent },
+      continentsMap[
+        continent.toLowerCase() as keyof typeof continentsMap
+      ] as keyof typeof countries
+    );
     setContinentCountry(continentCountry);
   };
   return (
