@@ -13,7 +13,6 @@ import {
   createFiveDaysTotalInfo,
   generateTimeZones,
   getFiveDayWeatherForecast,
-  getGPTWeatherInterpretation,
   getUserLocation,
   getWeatherDetails,
 } from "../functions/utilFunction";
