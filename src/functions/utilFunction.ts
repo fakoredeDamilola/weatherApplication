@@ -99,7 +99,7 @@ export const getWeatherDetails = async (
   longitude: number,
   unit: string = "metric"
 ) => {
-  const apiKey = "19fcb400747d659dba6ee886523c77ba";
+  const apiKey = import.meta.env.VITE_OPEN_WEATHER_API;
 
   try {
     const response = await axios.get(
@@ -120,7 +120,7 @@ export const getFiveDayWeatherForecast = async (
   longitude: number,
   unit = "metric"
 ) => {
-  const apiKey = "eea8d19db2cb30fe35fcd0af21c78b57";
+  const apiKey = import.meta.env.VITE_OPEN_WEATHER_API;
 
   try {
     const response = await axios.get(
