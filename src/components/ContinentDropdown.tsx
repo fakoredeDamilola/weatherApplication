@@ -129,6 +129,7 @@ const ContinentDropdown = ({
                   >
                     <Typography
                       my="10px"
+                      color="white"
                       sx={{
                         fontWeight: "500",
                         fontSize: "16px",

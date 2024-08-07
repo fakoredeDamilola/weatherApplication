@@ -19,6 +19,7 @@ const TodayData = ({
   fiveObjectsArray: WeatherData[];
   fiveObjectsTimeArray: WeatherData[];
 }) => {
+  console.log({ fiveObjectsArray, fiveDaysWeatherInfo, fiveObjectsTimeArray });
   return (
     <Box>
       <Stack>
@@ -31,10 +32,14 @@ const TodayData = ({
           }}
         >
           <div
-            style={{ background: "rgba(0,0,0,0.4)", padding: "10px 14px" }}
+            style={{
+              background: "rgba(0,0,0,0.4)",
+              padding: "10px 14px",
+              color: "#FFF2DC",
+            }}
             className="px-2 py-2"
           >
-            <div style={{ fontSize: "18px" }}>
+            <div style={{ fontSize: "18px", color: "#FFF2DC" }}>
               {`${weatherDetails?.name} ${weatherDetails?.sys?.country}`} As Of{" "}
               <span style={{ fontWeight: "500", fontSize: "13px" }}>
                 {convertUnixTimestampToReadableDateTime(weatherDetails?.dt)}{" "}
@@ -43,7 +48,7 @@ const TodayData = ({
             </div>
 
             <div>
-              <small className="text-white" style={{ fontSize: "12px" }}>
+              <small style={{ fontSize: "12px", color: "#FFF2DC" }}>
                 {new Date(weatherDetails?.dt * 1000).toTimeString()}{" "}
               </small>
             </div>
@@ -55,12 +60,22 @@ const TodayData = ({
           >
             <div>
               <div>
-                <div style={{ fontSize: "5rem", fontWeight: "900" }}>
+                <div
+                  style={{
+                    fontSize: "5rem",
+                    fontWeight: "900",
+                    color: "#FFF2DC",
+                  }}
+                >
                   {weatherDetails?.main?.temp}&deg;
                 </div>
                 <div
                   className=""
-                  style={{ fontSize: "22px", fontWeight: "700" }}
+                  style={{
+                    fontSize: "22px",
+                    fontWeight: "700",
+                    color: "#FFF2DC",
+                  }}
                 >
                   {weatherDetails?.weather[0]?.description}
                 </div>

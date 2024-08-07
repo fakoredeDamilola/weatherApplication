@@ -13,6 +13,7 @@ import {
   createFiveDaysTotalInfo,
   generateTimeZones,
   getFiveDayWeatherForecast,
+  getGPTWeatherInterpretation,
   getUserLocation,
   getWeatherDetails,
 } from "../functions/utilFunction";
@@ -113,10 +114,13 @@ const Home = () => {
       latitude,
       longitude
     );
+    console.log({ fiveDaysWeatherInfo });
     const fiveDaysData = fiveDaysWeatherInfo.list;
+    // await getGPTWeatherInterpretation(weatherInfo);
     // setFiveDaysWeather(fiveDaysData);
     if (fiveDaysData) {
       const categorizedWeather = categorizeDataByTime(fiveDaysData);
+      console.log({ categorizedWeather });
       const fiveObjectsArray = createArrayWithTimes(fiveDaysData);
       const fiveDaysTotalInfo = createFiveDaysTotalInfo(fiveDaysData);
       const fiveObjectsTimeArray = createArrayWithOneObjectPerDay(fiveDaysData);
@@ -140,7 +144,13 @@ const Home = () => {
   };
 
   return (
-    <div>
+    <Box
+      sx={{
+        width: "100%",
+        paddingBottom: "40px",
+        background: "linear-gradient(to bottom, #FFF2DC, #FFF5E8)",
+      }}
+    >
       <Header country={weatherDetails?.sys?.country} />
       <Box mt="71px">
         <HomeTabs tabs={4}>
@@ -180,7 +190,7 @@ const Home = () => {
         {selectedTab === "Weekly" && <WeeklyData />}
         {selectedTab === "Monthly" && <MonthlyData />}
       </Container>
-    </div>
+    </Box>
   );
 };
 

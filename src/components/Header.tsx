@@ -66,8 +66,9 @@ const Header = ({ country }: { country: string }) => {
       return (
         <Box
           sx={{
-            background: "white",
+            background: "#8A6552",
             borderRadius: "10px",
+            color: "#fff",
             boxShadow: "0px 1px 2px black",
             padding: "10px",
             top: "40px",
@@ -90,18 +91,11 @@ const Header = ({ country }: { country: string }) => {
                   key={index}
                   onClick={() => handleResultCLick(data.lat, data.lon)}
                   sx={{
-                    ":hover": { background: "lightgray" },
+                    ":hover": { background: "#6E5142" },
                     cursor: "pointer",
                   }}
                 >
-                  {/* <Link
-                  style={{ color: "black", textDecoration: "none" }}
-                  to={`${data.name?.split(", ").slice(0, 2)?.join("-")}/${
-                    data.latitude
-                  } ${data.longitude}`}
-                > */}
                   <ListItemText primary={data.display_name} />
-                  {/* </Link> */}
                 </ListItem>
               ))}
             </List>
@@ -115,7 +109,8 @@ const Header = ({ country }: { country: string }) => {
   const toolBarStyle = {
     display: "flex",
     justifyContent: "space-between",
-    bgcolor: "#fff",
+    // background: "rgb(2,0,36)",
+    background: "#FFE0B5",
     boxShadow: `0px 4px 4px rgba(0, 0, 0, 0.25)`,
     height: "69px",
   };
@@ -136,14 +131,19 @@ const Header = ({ country }: { country: string }) => {
             height="50px"
           >
             <div
-              style={{ display: "block", width: "100%", position: "relative" }}
+              style={{
+                display: "block",
+                width: "100%",
+                position: "relative",
+                margin: "auto",
+              }}
             >
               <div>
                 <Search
                   sx={{
                     position: "absolute",
                     color: "rgba(0, 0, 0, 0.25)",
-                    top: "7px",
+                    top: "15px",
                     left: "10px",
                   }}
                 />
@@ -157,7 +157,7 @@ const Header = ({ country }: { country: string }) => {
                   sx={{
                     position: "absolute",
                     color: "rgba(0, 0, 0, 0.25)",
-                    top: "7px",
+                    top: "15px",
                     right: "10px",
                     cursor: "pointer",
                     display: search ? "block" : "none",
@@ -195,7 +195,8 @@ const Header = ({ country }: { country: string }) => {
       </AppBar>
       <Box
         sx={{
-          backgroundColor: "white",
+          bgcolor: "#CCB391",
+
           width: "100%",
           padding: "20px",
           boxSizing: "border-box",

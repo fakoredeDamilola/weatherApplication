@@ -1,5 +1,6 @@
 import axios from "axios";
 import { WeatherData } from "../interface/IWeatherData";
+import OpenAI from "openai";
 
 export const getPlacesAutocomplete = async (userInput: any) => {
   const format = "json";
@@ -13,6 +14,53 @@ export const getPlacesAutocomplete = async (userInput: any) => {
   } catch (error) {
     console.log("places auto complete error", error);
     return error;
+  }
+};
+
+export const getGPTWeatherInterpretation = async (weatherData: any) => {
+  if (weatherData) {
+    console.log({ key: import.meta.env.VITE_OPENAI_API_KEY });
+    const openai = new OpenAI({
+      apiKey: import.meta.env.VITE_OPENAI_API_KEY,
+      dangerouslyAllowBrowser: true,
+    });
+
+    const interpretation = await openai.chat.completions.create({
+      model: "gpt-3.5-turbo",
+      messages: [
+        {
+          role: "system",
+          content:
+            "In two sentences manner provide advisory message or interpretation based data provided by user \nThe response should include:\n-advice for social activities\n-advice on clothing ,shelter \n-advice for business activities\n-health impacts \n\nThe response should not include data that can already be read from the user supplied data like 'temperature is ..., wind speed is...'",
+        },
+        {
+          role: "user",
+          content: JSON.stringify(weatherData),
+        },
+        // {
+        //   role: "assistant",
+        //   content:
+        //     "Cloudy and humid conditions in Ibadan can reduce sunlight, affecting agriculture and solar-dependent businesses. High humidity may lead to discomfort and health issues. Prolonged cloudy weather can also impact mood and well-being. When planning social activities, consider indoor options for comfort and enjoyment",
+        // },
+        // {
+        //   role: "assistant",
+        //   content:
+        //     "Cloudy and humid conditions in Ibadan can reduce sunlight, affecting agriculture and solar-dependent businesses. High humidity may lead to discomfort and health issues. Prolonged cloudy weather can also impact mood and well-being. When planning social activities, consider indoor options for comfort and enjoyment.",
+        // },
+        // {
+        //   role: "assistant",
+        //   content:
+        //     "Based on the weather data provided for Ibadan, it is advisable to engage in indoor social activities due to the cloudy and humid conditions. It is recommended to wear light and breathable clothing to stay comfortable in the high humidity. For shelter, it is advisable to have proper ventilation to prevent discomfort. In terms of business activities, it is important to consider the impact of reduced sunlight on agriculture and solar-dependent businesses. Lastly, the high humidity may have health impacts, so it is important to stay hydrated and take necessary precautions.",
+        // },
+      ],
+      temperature: 0.39,
+      max_tokens: 116,
+      top_p: 1,
+      frequency_penalty: 0,
+      presence_penalty: 0,
+    });
+
+    return interpretation?.choices;
   }
 };
 
@@ -51,7 +99,7 @@ export const getWeatherDetails = async (
   longitude: number,
   unit: string = "metric"
 ) => {
-  const apiKey = "b300406d7c6ee09a4133cfe76e70b495";
+  const apiKey = "19fcb400747d659dba6ee886523c77ba";
 
   try {
     const response = await axios.get(
@@ -72,7 +120,7 @@ export const getFiveDayWeatherForecast = async (
   longitude: number,
   unit = "metric"
 ) => {
-  const apiKey = "b300406d7c6ee09a4133cfe76e70b495";
+  const apiKey = "eea8d19db2cb30fe35fcd0af21c78b57";
 
   try {
     const response = await axios.get(
@@ -255,7 +303,7 @@ export function createArrayWithTimes(data: WeatherData[]): WeatherData[] {
     const time = data[i].dt_txt.split(" ")[1]; // Extract time from dt_txt
     result.push({ ...data[i], now: time });
   }
-
+  console.log({ result });
   return result;
 }
 
