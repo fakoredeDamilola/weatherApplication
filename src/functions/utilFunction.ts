@@ -19,7 +19,6 @@ export const getPlacesAutocomplete = async (userInput: any) => {
 
 export const getGPTWeatherInterpretation = async (weatherData: any) => {
   if (weatherData) {
-    console.log({ key: import.meta.env.VITE_OPENAI_API_KEY });
     const openai = new OpenAI({
       apiKey: import.meta.env.VITE_OPENAI_API_KEY,
       dangerouslyAllowBrowser: true,
