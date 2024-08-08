@@ -26,8 +26,8 @@ const Home = () => {
     today: "Today",
     hourly: "Hourly",
     // "10 Days": "10 Days",
-    weekly: "Weekly",
-    monthly: "Monthly",
+    // weekly: "Weekly",
+    // monthly: "Monthly",
   };
   const [selectedTab, setSelectedTab] = useState(tabs.today);
   // const [userLocation, setUserLocation] = useState({
@@ -38,7 +38,6 @@ const Home = () => {
   const [categorizedWeather, setCategorizedWeather] = useState<
     WeatherData[] | any
   >(null);
-  // const [fiveDaysWeather, setFiveDaysWeather] = useState<null | any>(null);
   const [searchParams] = useSearchParams();
 
   const [fiveObjectsArray, setFiveObjectsArray] = useState<WeatherData[]>([]);
@@ -152,7 +151,7 @@ const Home = () => {
     >
       <Header country={weatherDetails?.sys?.country} />
       <Box mt="71px">
-        <HomeTabs tabs={4}>
+        <HomeTabs tabs={2}>
           {Object.keys(tabs).map((tab) => {
             return (
               <Tab

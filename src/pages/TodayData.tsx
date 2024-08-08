@@ -1,10 +1,11 @@
-import { Box, Stack, Typography } from "@mui/material";
+import { Box, Stack, Typography, useMediaQuery } from "@mui/material";
 import {
   convertUnixTimestampToReadableDateTime,
   getWeatherIconURL,
 } from "../functions/utilFunction";
 import WeatherToday from "../components/WeatherToday";
 import { WeatherData } from "../interface/IWeatherData";
+import { theme } from "../utils/theme";
 
 const TodayData = ({
   weatherDetails,
@@ -19,12 +20,12 @@ const TodayData = ({
   fiveObjectsArray: WeatherData[];
   fiveObjectsTimeArray: WeatherData[];
 }) => {
-  console.log({ fiveObjectsArray, fiveDaysWeatherInfo, fiveObjectsTimeArray });
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   return (
     <Box>
       <Stack>
         <Box
-          width="80%"
+          width={isMobile ? "100%" : "80%"}
           sx={{
             backgroundImage: 'url("/thunder.jpeg")',
             borderRadius: "10px",
@@ -62,7 +63,7 @@ const TodayData = ({
               <div>
                 <div
                   style={{
-                    fontSize: "5rem",
+                    fontSize: isMobile ? "3rem" : "5rem",
                     fontWeight: "900",
                     color: "#FFF2DC",
                   }}
@@ -92,7 +93,7 @@ const TodayData = ({
             </div>
           </Stack>
         </Box>
-        <Box width="80%">
+        <Box width={isMobile ? "100%" : "80%"}>
           <Box
             sx={{
               backgroundColor: "white",
@@ -113,7 +114,7 @@ const TodayData = ({
                 alignItems="center"
               >
                 <Box
-                  fontSize="24px"
+                  fontSize={isMobile ? "18px" : "24px"}
                   fontWeight={
                     fiveDaysWeatherInfo?.morning?.currentSelected
                       ? "900"
@@ -122,7 +123,7 @@ const TodayData = ({
                 >
                   {fiveDaysWeatherInfo?.morning.time}
                 </Box>
-                <Box color="#1b4de4" fontSize="2.25rem">
+                <Box color="#1b4de4" fontSize={isMobile ? "24px" : "2.25rem"}>
                   {fiveDaysWeatherInfo?.morning.main.temp}
                 </Box>
                 <Box>
@@ -142,7 +143,7 @@ const TodayData = ({
                 alignItems="center"
               >
                 <Box
-                  fontSize="24px"
+                  fontSize={isMobile ? "18px" : "24px"}
                   fontWeight={
                     fiveDaysWeatherInfo?.afternoon?.currentSelected
                       ? "900"
@@ -151,7 +152,7 @@ const TodayData = ({
                 >
                   {fiveDaysWeatherInfo?.afternoon.time}
                 </Box>
-                <Box color="#1b4de4" fontSize="2.25rem">
+                <Box color="#1b4de4" fontSize={isMobile ? "24px" : "2.25rem"}>
                   {fiveDaysWeatherInfo?.afternoon.main.temp}
                 </Box>
                 <Box>
@@ -171,16 +172,16 @@ const TodayData = ({
                 alignItems="center"
               >
                 <Box
-                  fontSize="24px"
+                  fontSize={isMobile ? "18px" : "24px"}
                   fontWeight={
-                    fiveDaysWeatherInfo?.evening?.currentSelected
+                    fiveDaysWeatherInfo?.afternoon?.currentSelected
                       ? "900"
                       : "500"
                   }
                 >
                   {fiveDaysWeatherInfo?.evening.time}
                 </Box>
-                <Box color="#1b4de4" fontSize="2.25rem">
+                <Box color="#1b4de4" fontSize={isMobile ? "24px" : "2.25rem"}>
                   {fiveDaysWeatherInfo?.evening.main.temp}
                 </Box>
                 <Box>
@@ -200,16 +201,16 @@ const TodayData = ({
                 alignItems="center"
               >
                 <Box
-                  fontSize="24px"
+                  fontSize={isMobile ? "18px" : "24px"}
                   fontWeight={
-                    fiveDaysWeatherInfo?.overnight?.currentSelected
+                    fiveDaysWeatherInfo?.afternoon?.currentSelected
                       ? "900"
                       : "500"
                   }
                 >
                   {fiveDaysWeatherInfo?.overnight.time}
                 </Box>
-                <Box color="#1b4de4" fontSize="2.25rem">
+                <Box color="#1b4de4" fontSize={isMobile ? "24px" : "2.25rem"}>
                   {fiveDaysWeatherInfo?.overnight.main.temp}
                 </Box>
                 <Box>
@@ -254,11 +255,11 @@ const TodayData = ({
                     alignItems="center"
                     justifyContent="space-between"
                     borderBottom="1px solid #e0e0e0"
-                    padding="10px 20px"
+                    padding={isMobile ? "0px" : "10px 20px"}
                     color="#212121"
                   >
                     <Typography
-                      fontSize="22px"
+                      fontSize={isMobile ? "16px" : "22px"}
                       fontWeight={item.now === "now" ? "900" : "500"}
                     >
                       {item.now}
@@ -266,11 +267,11 @@ const TodayData = ({
                     <Typography
                       fontWeight={item.now === "now" ? "900" : "500"}
                       color="#1b4de4"
-                      fontSize="25px"
+                      fontSize={isMobile ? "20px" : "25px"}
                     >
                       {item.main.temp}°
                     </Typography>
-                    <Box marginTop="-20px">
+                    <Box marginTop={isMobile ? "0px" : "-20px"}>
                       <img src={getWeatherIconURL(item.weather[0].icon)} />
                     </Box>
                   </Stack>
@@ -299,11 +300,11 @@ const TodayData = ({
                     alignItems="center"
                     justifyContent="space-between"
                     borderBottom="1px solid #e0e0e0"
-                    padding="10px 20px"
+                    padding={isMobile ? "0px" : "10px 20px"}
                     color="#212121"
                   >
                     <Typography
-                      fontSize="22px"
+                      fontSize={isMobile ? "16px" : "22px"}
                       fontWeight={item.now === "now" ? "900" : "500"}
                     >
                       {item.now}
@@ -311,13 +312,23 @@ const TodayData = ({
                     <Typography
                       fontWeight={item.now === "now" ? "900" : "500"}
                       color="#1b4de4"
-                      fontSize="25px"
+                      // fontSize={isMobile ? "16px" : "25px"}
                     >
-                      <span style={{ fontWeight: "700", fontSize: "20px" }}>
+                      <span
+                        style={{
+                          fontWeight: "700",
+                          fontSize: isMobile ? "18px" : "20px",
+                        }}
+                      >
                         {item.main.temp_max}°
                       </span>{" "}
                       /{" "}
-                      <span style={{ fontWeight: "500", fontSize: "16px" }}>
+                      <span
+                        style={{
+                          fontWeight: "500",
+                          fontSize: isMobile ? "16px" : "16px",
+                        }}
+                      >
                         {item.main.temp_min}°
                       </span>
                     </Typography>

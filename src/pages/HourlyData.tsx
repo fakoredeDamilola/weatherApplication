@@ -1,4 +1,4 @@
-import { Box, Stack, Typography } from "@mui/material";
+import { Box, Stack, Typography, useMediaQuery } from "@mui/material";
 import {
   convertUnixTimestampToReadableTime,
   getWeatherIconURL,
@@ -9,6 +9,7 @@ import { useState } from "react";
 import { WiHumidity } from "react-icons/wi";
 import { IoIosCloud } from "react-icons/io";
 import { FaWater } from "react-icons/fa";
+import { theme } from "../utils/theme";
 
 const HourlyData = ({
   weatherDetails,
@@ -17,7 +18,7 @@ const HourlyData = ({
   weatherDetails: any;
   fiveObjectsTimeArray: any;
 }) => {
-  console.log({ fiveObjectsTimeArray });
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   const [openWeatherInfo, setOpenWeatherInfo] = useState("data");
   const openWeatherDetails = (tempKey: string) => {
     if (tempKey || openWeatherInfo !== tempKey) {
@@ -30,7 +31,7 @@ const HourlyData = ({
     <Box>
       <Stack>
         <Box
-          width="80%"
+          width={isMobile ? "100%" : "80%"}
           sx={{
             backgroundColor: "white",
             borderRadius: "10px",
@@ -40,7 +41,12 @@ const HourlyData = ({
         >
           <Box sx={{ padding: "20px" }}>
             <div>
-              <span style={{ fontSize: "27px", fontWeight: "800" }}>
+              <span
+                style={{
+                  fontSize: isMobile ? "20px" : "27px",
+                  fontWeight: "800",
+                }}
+              >
                 Hourly Weather
               </span>{" "}
               - <span>{weatherDetails?.name}</span>
@@ -83,7 +89,7 @@ const HourlyData = ({
                           <Stack
                             direction="row"
                             justifyContent={"space-between"}
-                            width="50%"
+                            width={isMobile ? "65%" : "50%"}
                             gap="10px"
                           >
                             <Stack
@@ -91,7 +97,9 @@ const HourlyData = ({
                               direction="row"
                               justifyContent={"space-between"}
                             >
-                              <Box>{singleItem?.dt_txt?.split(" ")[1]}</Box>
+                              <Box>
+                                {singleItem?.dt_txt?.split(" ")[1].slice(0, 5)}
+                              </Box>
                               <Box sx={{ fontWeight: "800" }}>
                                 {singleItem?.main?.temp}&deg;
                               </Box>
@@ -112,12 +120,14 @@ const HourlyData = ({
                                   className="weather-img"
                                 />
                               </Box>
-                              <Box>{singleItem?.weather[0]?.description}</Box>
+                              <Box display={isMobile ? "none" : "block"}>
+                                {singleItem?.weather[0]?.description}
+                              </Box>
                             </Stack>
                           </Stack>
                           <Stack
                             direction="row"
-                            width="20%"
+                            width={isMobile ? "40%" : "20%"}
                             justifyContent="space-between"
                           >
                             <Box>
@@ -157,7 +167,7 @@ const HourlyData = ({
                             borderRadius="10px"
                             margin="8px auto"
                             width="95%"
-                            padding="10px 14px"
+                            padding={isMobile ? "10px" : "10px 14px"}
                             boxSizing="border-box"
                           >
                             <Stack

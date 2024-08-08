@@ -1,4 +1,4 @@
-import { Box, Stack, Typography } from "@mui/material";
+import { Box, Stack, Typography, useMediaQuery } from "@mui/material";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { RiArrowDropDownLine } from "react-icons/ri";
@@ -6,6 +6,7 @@ import { RiArrowDropUpLine } from "react-icons/ri";
 import countries from "../constants/countries.json";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { theme } from "../utils/theme";
 
 const ContinentDropdown = ({
   setOpenMenuDropdown,
@@ -75,6 +76,8 @@ const ContinentDropdown = ({
     );
     setContinentCountry(continentCountry);
   };
+
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   return (
     <Box padding="20px">
       {continents.map((continent) => (
@@ -100,14 +103,14 @@ const ContinentDropdown = ({
               {continent.toUpperCase()}
             </Typography>
             <RiArrowDropUpLine
-              fontSize="29px"
+              fontSize={isMobile ? "24px" : "29px"}
               style={{
                 display: selectedContinent === continent ? "block" : "none",
               }}
             />
 
             <RiArrowDropDownLine
-              fontSize="29px"
+              fontSize={isMobile ? "24px" : "29px"}
               style={{
                 display: selectedContinent !== continent ? "block" : "none",
               }}
@@ -119,7 +122,9 @@ const ContinentDropdown = ({
                 sx={{
                   cursor: "pointer",
                   display: "grid",
-                  gridTemplateColumns: "repeat(3,1fr)",
+                  gridTemplateColumns: isMobile
+                    ? "repeat(2,1fr)"
+                    : "repeat(3,1fr)",
                 }}
               >
                 {continentCountry.map((country: any) => (
@@ -128,11 +133,11 @@ const ContinentDropdown = ({
                     onClick={() => openCountryData(country.name)}
                   >
                     <Typography
-                      my="10px"
+                      my={isMobile ? "5px" : "10px"}
                       color="white"
                       sx={{
                         fontWeight: "500",
-                        fontSize: "16px",
+                        fontSize: isMobile ? "14px" : "16px",
 
                         "&:hover": { color: "#1b4de4" },
                       }}

@@ -3,7 +3,15 @@ import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { Box, List, ListItem, ListItemText, Stack } from "@mui/material";
+import {
+  Box,
+  List,
+  ListItem,
+  ListItemText,
+  Stack,
+  Typography,
+  useMediaQuery,
+} from "@mui/material";
 import { Cancel, Search } from "@mui/icons-material";
 import { FaCaretUp, FaGlobeAmericas } from "react-icons/fa";
 import { CustomInput } from "./styles";
@@ -11,11 +19,12 @@ import { FaCaretDown } from "react-icons/fa6";
 import ContinentDropdown from "./ContinentDropdown";
 import useDebounce from "../hooks/useDebounce";
 import axios from "axios";
+import { theme } from "../utils/theme";
 
 const Header = ({ country }: { country: string }) => {
   const { t } = useTranslation();
   // const [, setAnchorEl] = React.useState(null);
-
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   const [openMenuDropdown, setOpenMenuDropdown] = useState(false);
   const [showResult, setShowResult] = useState(false);
   const [SearchResult, setSearchResult] = useState([]);
@@ -127,7 +136,7 @@ const Header = ({ country }: { country: string }) => {
             flexDirection="row"
             alignItems="center"
             gap="20px"
-            width="50%"
+            width={isMobile ? "70%" : "50%"}
             height="50px"
           >
             <div
@@ -177,17 +186,28 @@ const Header = ({ country }: { country: string }) => {
             }}
             onClick={() => setOpenMenuDropdown(!openMenuDropdown)}
           >
-            <FaGlobeAmericas style={{ marginRight: "5px" }} fontSize="32px" />{" "}
-            {country} | °C{" "}
+            <FaGlobeAmericas
+              style={{ marginRight: "5px" }}
+              fontSize={isMobile ? "20px" : "32px"}
+            />{" "}
+            <Typography display={isMobile ? "none" : "block"}>
+              {country} | °C{" "}
+            </Typography>
             {openMenuDropdown ? (
               <FaCaretUp
-                style={{ marginLeft: "15px", marginBottom: "5px" }}
-                fontSize="32px"
+                style={{
+                  marginLeft: isMobile ? "6px" : "15px",
+                  marginBottom: "5px",
+                }}
+                fontSize={isMobile ? "25px" : "32px"}
               />
             ) : (
               <FaCaretDown
-                style={{ marginLeft: "15px", marginBottom: "5px" }}
-                fontSize="32px"
+                style={{
+                  marginLeft: isMobile ? "6px" : "15px",
+                  marginBottom: "5px",
+                }}
+                fontSize={isMobile ? "25px" : "32px"}
               />
             )}
           </Box>
@@ -198,7 +218,7 @@ const Header = ({ country }: { country: string }) => {
           bgcolor: "#CCB391",
 
           width: "100%",
-          padding: "20px",
+          padding: isMobile ? "10px" : "20px",
           boxSizing: "border-box",
           position: "fixed",
           top: "70px",

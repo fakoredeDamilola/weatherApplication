@@ -7,7 +7,8 @@ import { IoCloudSharp } from "react-icons/io5";
 import { MdVisibility } from "react-icons/md";
 import { FaWind } from "react-icons/fa6";
 import { WiHumidity } from "react-icons/wi";
-import { Stack } from "@mui/material";
+import { Stack, useMediaQuery } from "@mui/material";
+import { theme } from "../utils/theme";
 
 const WeatherToday = ({ weatherData }: { weatherData: WeatherData }) => {
   const {
@@ -17,6 +18,7 @@ const WeatherToday = ({ weatherData }: { weatherData: WeatherData }) => {
     visibility,
   } = weatherData;
   const { t } = useTranslation();
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   return (
     <div className="p-3" style={{ boxSizing: "border-box", color: "#2b2b2b" }}>
       <p style={{ fontSize: "18px", fontWeight: "700" }}>
@@ -27,7 +29,7 @@ const WeatherToday = ({ weatherData }: { weatherData: WeatherData }) => {
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: "repeat(2,1fr",
+          gridTemplateColumns: isMobile ? "1fr" : "repeat(2,1fr)",
           padding: "13px 0",
           gap: "10px",
         }}
